@@ -1,0 +1,59 @@
+# Unified Retreival Engine - Main Configuration
+# Environment variables are loaded using ${oc.env:VAR_NAME} syntax
+# You can override any value at runtime or via command line
+
+# Application Info
+app:
+  app_name: "Unified Retreival Engine"
+  app_version: "0.1.0"
+  environment: "development"
+  root_path: "" # Set to "/prod" for API Gateway, empty for local development
+  upload_dir: "./uploads"
+  cache_dir: "./cache"
+
+# OpenAI Configuration
+openai:
+  api_key: ${oc.env:OPENAI_API_KEY}
+
+# Pinecone Cloud Configuration
+pinecone:
+  environment: ${oc.env:PINECONE_ENVIRONMENT}
+  api_key: ${oc.env:PINECONE_API_KEY}
+  index_name: ${oc.env:PINECONE_INDEX_NAME}
+
+# Document Processing Settings
+document_processing:
+  chunk_size: 512
+  chunk_overlap: 50
+  min_chunk_overlap: 256
+
+# Supabase Configuration
+supabase:
+  database_url: ${oc.env:DATABASE_URL}
+  db_user: ${oc.env:DB_USER}
+  db_password: ${oc.env:DB_PASSWORD}
+  db_host: ${oc.env:DB_HOST}
+  db_port: ${oc.env:DB_PORT}
+  db_name: ${oc.env:DB_NAME}
+
+# Opik Monitoring
+opik:
+  api_key: ${oc.env:OPIK_API_KEY}
+  project_name: ${app.app_name}
+
+# Vanna 2.0 Configuration (Text-to-SQL)
+vanna:
+  vanna_model: "gpt-4o"
+  vanna_pinecone_index: "vanna_sql_index"
+  vanna_namespace: "ure_sql_agent"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+
+# API Settings
+api:
+  host: "0.0.0.0"
+  port: 8000
+
+
