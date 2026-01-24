@@ -46,6 +46,28 @@ vanna:
   vanna_model: "gpt-4o"
   vanna_pinecone_index: "vanna_sql_index"
   vanna_namespace: "ure_sql_agent"
+  vanna_temperature: 0.0  # 0.0 = fully deterministic, 1.0 = creative (range: 0.0-2.0)
+  vanna_top_p: 0.1  # Nucleus sampling threshold (range: 0.0-1.0)
+  vanna_seed: 42  # Random seed for reproducibility
+  vanna_max_tokens: 1000  # Maximum tokens for SQL generation
+
+# Storage Backend Configuration
+storage:
+  storage_backend: s3 # Options: local, s3
+  s3_cache_bucket: ure-cache-bucket # S3 Configuration (for Lambda deployment)
+  aws_region: us-east-1
+
+# Upstash Redis Configuration (Query-level caching)
+upstash:
+  redis_url: ${oc.env:UPSTASH_REDIS_URL}
+  redis_token: ${oc.env:UPSTASH_REDIS_TOKEN}
+
+# Cache TTL Configuration (in seconds)
+cache:
+  ttl_embeddings: 604800   # 7 days - embeddings are static
+  ttl_rag: 3600            # 1 hour - may change with new documents
+  ttl_sql_gen: 86400       # 24 hours - schema relatively stable
+  ttl_sql_result: 900      # 15 minutes - data changes frequently
 
 # Logging Configuration
 logging:

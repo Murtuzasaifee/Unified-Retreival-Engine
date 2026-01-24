@@ -67,6 +67,28 @@ class VannaConfig:
     vanna_model: str
     vanna_pinecone_index: str
     vanna_namespace: str
+    vanna_temperature: float
+    vanna_top_p: float
+    vanna_seed: int
+    vanna_max_tokens: int
+
+@dataclass
+class StorageConfig:
+    storage_backend: str
+    s3_cache_bucket: str
+    aws_region: str
+
+@dataclass
+class UpstashConfig:
+    redis_url: str
+    redis_token: str
+
+@dataclass
+class CacheConfig:
+    ttl_embeddings: int
+    ttl_rag: int
+    ttl_sql_gen: int
+    ttl_sql_result: int
 
 @dataclass
 class APIConfig:
