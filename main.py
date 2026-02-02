@@ -23,11 +23,11 @@ def main(cfg: DictConfig):
     print(router.explain_routing("How many customers do we have?"))
     print(router.get_routing_confidence("How many customers do we have?"))
 
-    docling_service = DoclingService()
-    chunks = docling_service.parse_and_chunk_document("test_data/Understanding_Climate_Change.pdf")
-    for chunk in chunks:
-        print("\n")
-        print(chunk)
+    # docling_service = DoclingService()
+    # chunks = docling_service.parse_and_chunk_document("test_data/Understanding_Climate_Change.pdf")
+    # for chunk in chunks:
+    #     print("\n")
+    #     print(chunk)
 
 @with_config
 async def amain(cfg: DictConfig):

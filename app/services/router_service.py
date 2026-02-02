@@ -162,18 +162,18 @@ class QueryRouter:
 
         # Count matching keywords for each category
         sql_matches = sum(
-            1 for keyword in QueryRouter.SQL_KEYWORDS
+            1 for keyword in self.sql_keywords
             if keyword in question_lower
         )
 
         
         doc_matches = sum(
-            1 for keyword in QueryRouter.DOCUMENT_KEYWORDS
+            1 for keyword in self.document_keywords
             if keyword in question_lower
         )
 
         hybrid_matches = sum(
-            1 for keyword in QueryRouter.HYBRID_KEYWORDS
+            1 for keyword in self.hybrid_keywords
             if keyword in question_lower
         )
 
