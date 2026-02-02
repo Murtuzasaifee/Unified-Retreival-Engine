@@ -88,8 +88,12 @@ class QueryRouter:
         'compare and explain', 'analyze and describe',
     ]
 
-    @staticmethod
-    def route(question: str) -> QueryType:
+    def __init__(self):
+        self.sql_keywords = self.SQL_KEYWORDS
+        self.document_keywords = self.DOCUMENT_KEYWORDS
+        self.hybrid_keywords = self.HYBRID_KEYWORDS
+
+    def route(self, question: str) -> QueryType:
         """
         Determine the appropriate route for a query.
 
@@ -142,8 +146,7 @@ class QueryRouter:
             return "DOCUMENTS"
 
 
-    @staticmethod
-    def get_routing_confidence(question: str) -> RouterConfidence:
+    def get_routing_confidence(self, question: str) -> RouterConfidence:
         """
         Get confidence scores for each routing option.
         Useful for debugging and understanding routing decisions.
@@ -182,7 +185,7 @@ class QueryRouter:
         hybrid_confidence = hybrid_matches / total_matches
 
         # Get routing decision
-        route_decision = QueryRouter.route(question)
+        route_decision = self.route(question)
         
         return RouterConfidence(
             question=question,
@@ -199,8 +202,7 @@ class QueryRouter:
             )
         )
 
-    @staticmethod
-    def explain_routing(question: str) -> str:
+    def explain_routing(self, question: str) -> str:
         """
         Provide a human-readable explanation of why a question
         was routed to a particular destination.
@@ -212,8 +214,8 @@ class QueryRouter:
             Explanation string
         """
 
-        route = QueryRouter.route(question)
-        router_confidence = QueryRouter.get_routing_confidence(question)
+        route = self.route(question)
+        router_confidence = self.get_routing_confidence(question)
 
         explanation = f"Question routed to: {route}\n\n"
         explanation += f"Keyword matches:\n"
