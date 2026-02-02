@@ -2,6 +2,7 @@ from omegaconf import DictConfig
 from app.utils.config_utils import with_config, print_config
 from app.utils.logging import setup_logging, get_logger
 import asyncio  
+from app.services.router_service import QueryRouter
 
 from dotenv import load_dotenv
 
@@ -16,6 +17,10 @@ def main(cfg: DictConfig):
     setup_logging(log_level=cfg.logging.level)
     logger.info(f"App Name: {cfg.app.app_name}")
     
+    router = QueryRouter()
+    print(router.route("How many customers do we have?"))
+    print(router.explain_routing("How many customers do we have?"))
+    print(router.get_routing_confidence("How many customers do we have?"))
 
 @with_config
 async def amain(cfg: DictConfig):

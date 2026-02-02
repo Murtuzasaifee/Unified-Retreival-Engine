@@ -6,6 +6,8 @@ Uses keyword-based classification for intelligent routing.
 
 from typing import Literal
 
+from app.dto.router_schema import RouterConfidence, ConfidenceScore, KeywordMatches
+
 QueryType = Literal["SQL", "DOCUMENTS", "HYBRID"]
 
 
@@ -141,7 +143,7 @@ class QueryRouter:
 
 
     @staticmethod
-    def get_routing_confidence(question: str) -> dict:
+    def get_routing_confidence(question: str) -> RouterConfidence:
         """
         Get confidence scores for each routing option.
         Useful for debugging and understanding routing decisions.
@@ -181,21 +183,21 @@ class QueryRouter:
 
         # Get routing decision
         route_decision = QueryRouter.route(question)
-
-        return {
-            "question": question,
-            "route": route_decision,
-            "confidence_scores": {
-                "sql": round(sql_confidence, 3),
-                "documents": round(doc_confidence, 3),
-                "hybrid": round(hybrid_confidence, 3)
-            },
-            "keyword_matches": {
-                "sql_keywords": sql_matches,
-                "document_keywords": doc_matches,
-                "hybrid_keywords": hybrid_matches
-            }
-        }
+        
+        return RouterConfidence(
+            question=question,
+            route=route_decision,
+            confidence_scores=ConfidenceScore(
+                sql=round(sql_confidence, 3),
+                documents=round(doc_confidence, 3),
+                hybrid=round(hybrid_confidence, 3)
+            ),
+            keyword_matches=KeywordMatches(
+                sql_keywords=sql_matches,
+                document_keywords=doc_matches,
+                hybrid_keywords=hybrid_matches
+            )
+        )
 
     @staticmethod
     def explain_routing(question: str) -> str:
@@ -211,13 +213,13 @@ class QueryRouter:
         """
 
         route = QueryRouter.route(question)
-        confidence = QueryRouter.get_routing_confidence(question)
+        router_confidence = QueryRouter.get_routing_confidence(question)
 
         explanation = f"Question routed to: {route}\n\n"
         explanation += f"Keyword matches:\n"
-        explanation += f"- SQL keywords: {confidence['keyword_matches']['sql_keywords']}\n"
-        explanation += f"- Document keywords: {confidence['keyword_matches']['document_keywords']}\n"
-        explanation += f"- Hybrid keywords: {confidence['keyword_matches']['hybrid_keywords']}\n"
+        explanation += f"- SQL keywords: {router_confidence.keyword_matches.sql_keywords}\n"
+        explanation += f"- Document keywords: {router_confidence.keyword_matches.document_keywords}\n"
+        explanation += f"- Hybrid keywords: {router_confidence.keyword_matches.hybrid_keywords}\n"
 
         if route == "SQL":
             explanation += "\nThis appears to be a data/analytics query about the database."
