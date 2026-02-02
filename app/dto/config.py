@@ -36,6 +36,7 @@ class DocumentProcessingConfig:
     chunk_size: int = 512
     chunk_overlap: int = 50
     min_chunk_overlap: int = 256
+    use_docling: bool = True
 
 
 @dataclass

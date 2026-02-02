@@ -7,9 +7,8 @@ app:
   app_name: "Unified Retreival Engine"
   app_version: "0.1.0"
   environment: "development"
-  root_path: "" # Set to "/prod" for API Gateway, empty for local development
-  upload_dir: "./uploads"
-  cache_dir: "./cache"
+  upload_dir: "data/uploads"
+  cache_dir: "data/cache"
 
 # OpenAI Configuration
 openai:
@@ -26,6 +25,7 @@ document_processing:
   chunk_size: 512
   chunk_overlap: 50
   min_chunk_overlap: 256
+  use_docling: True
 
 # Supabase Configuration
 supabase:
